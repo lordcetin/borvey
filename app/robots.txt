@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /panel/
+Sitemap: https://borvey.com/sitemap.xml
