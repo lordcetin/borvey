@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../Input/Input'
 import useAddressStore from '@/store/useAddressStore'
 import Textarea from '../Input/Textarea'
@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { CityData } from '@/utils/CityData'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import useValid from '@/store/useValid'
+import useValidForm from '@/store/useValidForm'
 
 type Props = {}
 
@@ -24,40 +26,46 @@ const formSchema = z.object({
 })
 
 const AddressDetails = (props: Props) => {
-  const { addressDetails, setAddressDetails } = useAddressStore()
-  const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({})
+  const { addressDetails, setAddressDetails, validationErrors, validate, setIsValid } = useValidForm()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setAddressDetails({ ...addressDetails, [name]: value })
-    setValidationErrors({ ...validationErrors, [name]: '' })
+    setAddressDetails({ [e.target.name]: e.target.value })
+    validate()
   }
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setAddressDetails({ ...addressDetails, [name]: value })
-    setValidationErrors({ ...validationErrors, [name]: '' })
+    setAddressDetails({ [e.target.name]: e.target.value })
+    validate()
   }
 
   const handleSelectChange = (key: string, value: string) => {
-    setAddressDetails({ ...addressDetails, [key]: value })
-    setValidationErrors({ ...validationErrors, [key]: '' })
+    setAddressDetails({ [key]: value })
+    validate()
   }
 
-  const validateForm = () => {
-    const validationResult = formSchema.safeParse(addressDetails)
-    if (!validationResult.success) {
-      const errors:any = validationResult.error.flatten().fieldErrors
-      const formattedErrors: { [key: string]: string } = {}
-      Object.keys(errors).forEach((key) => {
-        formattedErrors[key] = errors[key]![0]
-      })
-      setValidationErrors(formattedErrors)
-      toast.error("Lütfen tüm zorunlu alanları doldurun.")
-      return false
-    }
-    return true
-  }
+  useEffect(() => {
+    setIsValid(false)
+  }, []);
+
+  // useEffect(() => {
+  //   const validateForm = () => {
+  //   const validationResult = formSchema.safeParse(addressDetails)
+  //   if (!validationResult.success) {
+  //     const errors:any = validationResult.error.flatten().fieldErrors
+  //     const formattedErrors: { [key: string]: string } = {}
+  //     Object.keys(errors).forEach((key) => {
+  //       formattedErrors[key] = errors[key]![0]
+  //     })
+  //     setValidationErrors(formattedErrors)
+  //     toast.error("Lütfen tüm zorunlu alanları doldurun.")
+  //     return false
+  //   }
+  //   setIsValid(true)
+  //   }
+  //   validateForm()
+  // },[])
+
+
 
   const selectedProvinceFrom = CityData.find(city => city.il_adi === addressDetails.provinceFrom)
   const selectedProvinceTo = CityData.find(city => city.il_adi === addressDetails.provinceTo)
@@ -117,7 +125,6 @@ const AddressDetails = (props: Props) => {
         </div>
 
         <div className='flex gap-4 my-4'>
-          {/* İl (Nereye) */}
           <Select onValueChange={(val) => handleSelectChange('provinceTo', val)}>
             <SelectTrigger className={`w-full cursor-pointer border ${validationErrors.provinceTo ? 'dark:border-red-800 border-red-500' : 'dark:border-white/30 border-black/30'}`}>
               <SelectValue placeholder="İl (Nereye)" />
@@ -131,7 +138,6 @@ const AddressDetails = (props: Props) => {
             </SelectContent>
           </Select>
 
-          {/* İlçe (Nereye) */}
           <Select
             onValueChange={(val) => handleSelectChange('districtTo', val)}
             disabled={!addressDetails.provinceTo}
@@ -159,6 +165,7 @@ const AddressDetails = (props: Props) => {
           className='object-cover w-full'
         />
       </div>
+
     </div>
   )
 }

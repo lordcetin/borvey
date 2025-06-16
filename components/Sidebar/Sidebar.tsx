@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { Grid2x2Plus, LayoutGrid, MessageSquare } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { playSound } from '@/lib/playSound';
+import { isEmpty } from "lodash";
 
 type Props = {};
 const DATE_FORMAT = 'd.MM.yyyy HH:mm';
@@ -53,8 +54,10 @@ const Sidebar = (props: Props) => {
         setConversationId(data?.conversationId)
         if(data?.sendTo === 'service'){
           if(!pathname?.startsWith('/panel/mesajlar')){
-            playSound('/sounds/notify.mp3');
-            toast(data?.message , {descriptionClassName: "w-50 truncate flex items-center" , description: data?.messageContent , action:{label:"Mesajı Gör",onClick() { router?.push(`/panel/mesajlar/${conversationId}`) }},icon:<Image src={data?.avatar} alt={data?.message} width={800} height={800} className="object-cover size-6 rounded-full shrink-0 whitespace-nowrap self-start box-content border dark:border-white/30 border-black/30"/>})
+            if(!isEmpty(data?.message)){
+              playSound('/sounds/notify.mp3');
+              toast(data?.message , {descriptionClassName: "w-50 truncate flex items-center" , description: data?.messageContent , action:{label:"Mesajı Gör",onClick() { router?.push(`/panel/mesajlar/${conversationId}`) }},icon:<Image src={data?.avatar} alt={data?.message} width={800} height={800} className="object-cover size-6 rounded-full shrink-0 whitespace-nowrap self-start box-content border dark:border-white/30 border-black/30"/>})
+            }
           }
           setIsCustomer(data?.sendTo)
         }

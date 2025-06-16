@@ -21,9 +21,6 @@ model User {
   code String @default("")
   verified Boolean @default(false)
 
-  hash String @default("")
-  salt String @default("")
-
   memberId String
   conversationId String @default("")
 

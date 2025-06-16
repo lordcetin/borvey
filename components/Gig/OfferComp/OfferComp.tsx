@@ -8,12 +8,9 @@ import TimeAgo from '@/components/TimeAgo';
 import MessageButton from '@/components/MessageButton/MessageButton';
 import IgnoreButton from '../IgnoreButton/IgnoreButton';
 import { useSession } from 'next-auth/react';
-import { useChatQuery } from '@/hook/useChatQuery';
-import { useChatSocket } from '@/hook/useChatSocket';
-import { useChatScroll } from '@/hook/useChatScroll';
 import { motion } from "framer-motion";
 import axios from 'axios';
-import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { ChevronDown } from 'lucide-react';
 
@@ -41,13 +38,6 @@ const OfferComp = ({teklif,index}: Props) => {
     addSuffix: false,
     locale: tr,
   });
-
-// const formatted = new Intl.NumberFormat('tr-TR', {
-//   style: 'currency',
-//   currency: 'TRY', // Türk Lirası için doğru kod
-//   notation: 'compact', // Kısa format (örneğin, 1M)
-//   compactDisplay: 'short', // Kısa gösterim (örneğin, 1M yerine 1 milyon)
-// }).format(teklif?.price ?? 0); // Fallback olarak 0 kullan
 
 const formatted = Number(teklif?.price).toLocaleString('tr-TR', { maximumFractionDigits: 6 })
 
@@ -112,7 +102,7 @@ const formatted = Number(teklif?.price).toLocaleString('tr-TR', { maximumFractio
     <div className='flex justify-between max-md:justify-normal items-center mt-5 w-full'>
       <div></div>
       <div className='flex items-center gap-x-4'>
-        {teklif?.status === "denied" && <h1 className='text-sm px-3 py-1 rounded-md dark:text-white/30 text-black/70 bg-black/20'>Reddettin</h1>}
+        {teklif?.status === "denied" && session?.user?.firmStatus === false && <h1 className='text-sm px-3 py-1 rounded-md dark:text-white/30 text-black/70 bg-black/20'>Reddettin</h1>}
         {session?.user?.id === user?.id && <div className={` px-4 py-1 rounded-md dark:bg-neutral-800 bg-blue-100 dark:text-white/40 text-black/50 cursor-default text-sm max-md:text-xs whitespace-nowrap`}>{teklif?.status === 'denied' ? "Reddedildi" : "Teklifin İnceleniyor"}</div>}
         {session?.user?.id !== user?.id && teklif?.status !== "denied" && <MessageButton id={user?.id} gigId={teklif?.gigId} />}
         {session?.user?.id !== user?.id && teklif?.status !== "denied" && <IgnoreButton gigId={teklif?.gigId} offerId={teklif?.id}/>}

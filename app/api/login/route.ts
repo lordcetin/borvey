@@ -52,6 +52,8 @@ export async function POST(request: Request) {
     let timezone = ipconfig.timezone || '';
     let location = ipconfig.loc || '';
 
+    console.log("data",datas)
+
     const expirationDate = new Date();
     expirationDate.setFullYear(expirationDate.getFullYear() + 1);
     

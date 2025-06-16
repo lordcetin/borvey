@@ -15,6 +15,7 @@ import { useStepStore } from '@/store/useStepStore'
 import { usePathname } from 'next/navigation'
 import { z } from 'zod'
 import { Check, ChevronLeft } from 'lucide-react'
+import useValidForm from '@/store/useValidForm'
 
 type Props = {}
 
@@ -38,13 +39,13 @@ const ProfileComplete = (props: Props) => {
   const currentStep = useStepStore((state) => state.currentStep)
   const setCurrentStep = useStepStore((state) => state.setCurrentStep)
   const pathname = usePathname()
+  const { addressDetails } = useValidForm()
 
   const generateCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
   const transportype = useTransport((state) => state.transportype)
-  const { addressDetails } = useAddressStore()
 
   const handleRegister = async (event: any) => {
     event.preventDefault()

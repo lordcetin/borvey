@@ -32,6 +32,7 @@ import useOfferMessage from "@/store/useOfferMessage";
 import useGigCreate from "@/store/useGigCreate";
 import { showBrowserNotification } from "@/utils/showNotification";
 import { playSound } from '@/lib/playSound';
+import { isEmpty } from "lodash";
 
 type Props = {};
 
@@ -57,7 +58,9 @@ const DashboardNavbar = (props: Props) => {
         setOfferMessage(data?.message)
         if(data?.sendTo === 'user'){
           setIsCustomer(data?.sendTo)
-          playSound('/sounds/notify.mp3');
+          if(!isEmpty(data?.message)){
+            playSound('/sounds/notify.mp3');
+          }
         }
         setIsNotification(true);
         showBrowserNotification(
@@ -93,8 +96,10 @@ const DashboardNavbar = (props: Props) => {
           data?.message,
           `/panel/teklifler` // burada yönlendirme linkini dinamikleştir
         );
+        if(!isEmpty(data?.message)){
+          playSound('/sounds/notify.mp3');
+        }
       });
-      playSound('/sounds/notify.mp3');
 
     return () => {
       // React bileşen unmount edildiğinde burada temizleme işlemini yapabilirsiniz
@@ -120,7 +125,9 @@ const DashboardNavbar = (props: Props) => {
           data?.message,
           `/panel/teklifler` // burada yönlendirme linkini dinamikleştir
         );
-        playSound('/sounds/notify.mp3');
+        if(!isEmpty(data?.message)){
+          playSound('/sounds/notify.mp3');
+        }
       });
 
     return () => {
@@ -147,7 +154,9 @@ const DashboardNavbar = (props: Props) => {
           data?.message,
           `/panel/teklifler` // burada yönlendirme linkini dinamikleştir
         );
-        playSound('/sounds/notify.mp3');
+        if(!isEmpty(data?.message)){
+          playSound('/sounds/notify.mp3');
+        }
       });
 
     return () => {

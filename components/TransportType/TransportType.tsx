@@ -1,14 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { useTransport } from '@/store/useTransport'
-import React from 'react'
+import useValid from '@/store/useValid'
+import useValidForm from '@/store/useValidForm'
+import React, { useEffect } from 'react'
 
 type Props = {}
 
 const TransportType = (props: Props) => {
   const transportype = useTransport((state) => state.transportype)
   const setTransportType = useTransport((state) => state.setTransportType)
+  const { isValid , setIsValid } = useValidForm()
+
+    useEffect(() => {
+      setIsValid(false)
+    }, []);
 
   return (
     <div className='flex justify-center items-center w-full mt-10 mb-20'>
@@ -16,7 +25,7 @@ const TransportType = (props: Props) => {
       <div className='flex-col items-center w-full space-y-4 max-md:grid max-md:grid-cols-1'>
         <div className='flex items-center w-full space-x-4'>
 
-          <div onClick={() => setTransportType("evdenEve")} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'evdenEve' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
+          <div onClick={() => {setTransportType("evdenEve"),setIsValid(true)}} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'evdenEve' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
             <div className='flex items-center w-full gap-x-2'>
               <div className={`rounded-full max-md:shrink-0 size-6 transition-all self-start mt-2 ${transportype === 'evdenEve' ? "border-4 border-blue-500 dark:bg-[#0a0d11] bg-white" : "border dark:border-white/30 border-black/30"}`}></div>
               <div className='flex-col items-center space-y-2 self-start'>
@@ -27,7 +36,7 @@ const TransportType = (props: Props) => {
             </div>
           </div>
 
-          <div onClick={() => setTransportType("tekliUrun")} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'tekliUrun' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
+          <div onClick={() => {setTransportType("tekliUrun"),setIsValid(true)}} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'tekliUrun' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
             <div className='flex items-center w-full gap-x-2'>
               <div className={`rounded-full max-md:shrink-0 size-6 transition-all self-start mt-2 ${transportype === 'tekliUrun' ? "border-4 border-blue-500 dark:bg-[#0a0d11] bg-white" : "border dark:border-white/30 border-black/30"}`}></div>
               <div className='flex-col items-center space-y-2 self-start'>
@@ -41,7 +50,7 @@ const TransportType = (props: Props) => {
         </div>
         <div className='flex items-center w-full space-x-4'>
 
-          <div onClick={() => setTransportType("ofis")} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'ofis' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
+          <div onClick={() => {setTransportType("ofis"),setIsValid(true)}} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'ofis' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
             <div className='flex items-center w-full gap-x-2'>
               <div className={`rounded-full max-md:shrink-0 size-6 transition-all self-start mt-2 ${transportype === 'ofis' ? "border-4 border-blue-500 dark:bg-[#0a0d11] bg-white" : "border dark:border-white/30 border-black/30"}`}></div>
               <div className='flex-col items-center space-y-2 self-start'>
@@ -52,7 +61,7 @@ const TransportType = (props: Props) => {
             </div>
           </div>
 
-          <div onClick={() => setTransportType("kisaMesafe")} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'kisaMesafe' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
+          <div onClick={() => {setTransportType("kisaMesafe"),setIsValid(true)}} className={`w-[50%] h-70 relative flex-col items-center py-7 px-5 rounded-3xl max-md:rounded-2xl cursor-pointer ${transportype === 'kisaMesafe' ? "dark:bg-blue-600 bg-blue-300/50 border-2 border-blue-500" : "border dark:border-white/20 border-black/30"}`}>
             <div className='flex items-center w-full gap-x-2'>
               <div className={`rounded-full max-md:shrink-0 size-6 transition-all self-start mt-2 ${transportype === 'kisaMesafe' ? "border-4 border-blue-500 dark:bg-[#0a0d11] bg-white" : "border dark:border-white/30 border-black/30"}`}></div>
               <div className='flex-col items-center space-y-2 self-start'>
